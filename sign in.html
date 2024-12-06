@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In to TradeSpot</title>
+  <style>
+    body {
+      
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    form {
+      max-width: 300px;
+      margin: auto;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 8px;
+      background-color: blue;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .message {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+  <script>
+    function signIn(event) {
+      event.preventDefault(); // Prevent form from submitting normally
+
+      // Get username and password inputs
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Dummy credentials for testing
+      const validUsername = "testuser";
+      const validPassword = "password123";
+
+      // Simple authentication check
+      if (username === validUsername && password === validPassword) {
+        document.getElementById("message").textContent = "Sign-in successful! Welcome.";
+        document.getElementById("message").style.color = "green";
+      } else {
+        document.getElementById("message").textContent = "Invalid username or password.";
+        document.getElementById("message").style.color = "red";
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Sign-In to TradeSpot</h1>
+  <form onsubmit="signIn(event)">
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter your username" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter your password" required>
+    
+    <button type="submit">Sign In</button>
+  </form>
+  <div id="message" class="message"></div>
+</body>
+</html>
