@@ -1,0 +1,36 @@
+.seller-grid {
+    Display: grid;	
+    Grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Responsive grid */
+    Grid-gap: 20px;
+  }
+  
+  .seller {
+    Border: 1px solid #ccc;
+    Padding: 10px;
+    Box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .seller img {
+    Max-width: 100%;
+    Height: auto;
+    Margin-bottom: 10px;
+  }
+  
+  .product-grid {
+    Display: grid;
+    Grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    Grid-gap: 10px;
+  }
+  
+  .product-item {
+    Border: 1px solid #ddd;
+    Padding: 5px;
+    Text-align: center;
+  }
+  
+  .product-item img {
+    Max-width: 100%;
+    Height: auto;
+  }
+  
+  
