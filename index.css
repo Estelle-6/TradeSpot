@@ -1,0 +1,118 @@
+body {
+  font-family: 'Arial', sans-serif; /* Use a more readable font */
+  margin: 0;
+  background-color: #f2f2f2;
+}
+
+header{
+  #logo-container {
+      display: inline-block;
+      height: 70px;
+      margin-right: 15px;
+  }
+  
+  #logo-container img {
+      max-height: 100%;
+      max-width: 100%;
+      vertical-align: middle;
+  }
+  background-color: #FFD700; /* Yellow */
+  color: #333; /* Darker text for better contrast */
+  padding: 1rem 0;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+h1 {
+  font-size: 2.5rem; /* Larger header */
+  margin: 0;
+}
+
+#hero {
+  background-color: #675edb; /* Light purple */
+  color: #fff;
+  padding: 2rem 0;
+  text-align: center;
+  background-size: cover; /* For hero image */
+  background-position: center;
+}
+
+#hero h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+#hero img {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Prevents extra space below image */
+}
+
+
+#featured, #community, #categories {
+  padding: 2rem;
+}
+
+.product-grid, .community-feed, .category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Styling for individual product/community/category items -  ADD THESE */
+.product-item, .community-item, .category-item {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow for better look */
+}
+
+.product-item img {
+  max-width: 100%;
+  height: auto;
+}
+
+.product-item h3 {
+  margin-top: 0.5rem;
+}
+
+
+footer {
+  background-color: #FFD700;
+  color: #333;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Responsive Design (Basic) */
+@media (max-width: 768px) {
+  .product-grid, .community-feed, .category-grid {
+      grid-template-columns: 1fr; /* Stack items vertically on smaller screens */
+  }
+}
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: right; /* Align navigation items to the right */
+}
+
+header nav li {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+header nav a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Style for profile link (this will be updated based on user type) */
+#profile-link {
+display: none; /* Hidden initially */
+}
+
+/* Style for logged-in state (example) */
+.logged-in #profile-link {
+display: inline-block;
+}
