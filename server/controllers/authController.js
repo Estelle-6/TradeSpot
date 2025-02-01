@@ -1,33 +1,29 @@
-const bcrypt = require("bcrypt");
-const createUser = require("../models/userModel");
+import bcrypt from "bcrypt";
+import userModel from "../models/userModel.js";
 
-const registerUser = (req, res)=>{
-    const {username, email, password} = req.body;
+export const registerUser = async (req, res) => {
+  const { username, email, password } = req.body;
 
-    // validate input
-    if(!username || !email || !password){
-        return res.status(400).json({error: "All field are required"});
-    }
+  // validate input
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
 
-    //hash the password
-
+  try {
+    // hash the password
     const saltRounds = 10;
-    bcrypt.hash(password, saltRounds, (err, hashedPassword)=>{
-        if(err){
-            console.log("Error hashing password:", err);
-            return res.status(500).json({error: "Intenal server error"});
-        }
-    })
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    //save user in database
-
-    createUser(username, email, hashedPassword, (err, result)=>{
-        if(err){
-            console.log("Error inserting user", err);
-            return res.status(500).json({error: "Database error"});
-        }
-        return res.status(201).json({message: "User registered successfully"})
-    })
-}
-
-module.exports = {registerUser}
+    // save user in database
+    userModel.createUser(username, email, hashedPassword, (err, result) => {
+      if (err) {
+        console.log("Error inserting user:", err);
+        return res.status(500).json({ error: "Database error" });
+      }
+      return res.status(201).json({ message: "User registered successfully" });
+    });
+  } catch (error) {
+    console.log("Error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};

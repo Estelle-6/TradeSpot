@@ -1,8 +1,8 @@
-const db = require("../config/db");
+import db from "../config/db.js";
 
-const createUser = (username, email, hashedpassword, callback)=>{
-    const query = "INSER INTO users(username, email, password) VALUES (?, ?, ?)";
-    db.query(query, [username, email, hashedpassword], callback);
-}
+const createUser = (username, email, hashedPassword, callback) => {
+  const query = "INSERT INTO users(username, email, password) VALUES (?, ?, ?)";
+  db.query(query, [username, email, hashedPassword], callback);
+};
 
-module.exports = {createUser};
+export default { createUser };
