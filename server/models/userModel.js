@@ -5,4 +5,11 @@ const createUser = (username, email, hashedPassword, callback) => {
   db.query(query, [username, email, hashedPassword], callback);
 };
 
-export default { createUser };
+const findByEmail = (email, callback) => {
+  const query = "SELECT * FROM users WHERE email = ?";
+  db.query(query, [email], (err, results) => {
+    if (err) return callback(err, null);
+    callback(null, results[0]);
+  });
+};
+export default { createUser, findByEmail };
