@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
+import SellProductForm from "./pages/SellProductForm";
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/sell-product" element={<SellProductForm />} />
         {/* Catch-all route for 404 */}
       </Routes>
     </Router>
