@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:3000/api'
+  baseURL: 'http://localhost:3000/'
 });
 
 // Add an interceptor to include the auth token
@@ -13,9 +13,13 @@ API.interceptors.request.use((config) => {
   return config;
 });
 export const productAPI = {
-  create: (data: FormData) => API.post('/products', data),
-  getAll: () => API.get('/products'),
-  getOne: (id: string) => API.get(`/products/${id}`),
-  update: (id: string, data: FormData) => API.put(`/products/${id}`, data),
-  delete: (id: string) => API.delete(`/products/${id}`)
+  create: (data: FormData) => API.post('products', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }),
+  getAll: () => API.get('products'),
+  getOne: (id: string) => API.get(`products/${id}`),
+  update: (id: string, data: FormData) => API.put(`products/${id}`, data),
+  delete: (id: string) => API.delete(`products/${id}`)
 };

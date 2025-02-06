@@ -114,7 +114,9 @@ const SellProductForm: React.FC = () => {
     try {
       console.log("Starting product creation...");
       const response = await productAPI.create(formData);
+      alert("product created successfully: ");
       console.log("Product created successfully:", response.data);
+      window.location.href = "/home";
     } catch (error) {
       console.error(
         "Error creating product:",

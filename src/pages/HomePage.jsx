@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HomeNavbar from "../components/section/homeNavbar/HomeNavbar";
 import ProductCart from "../components/cards/productCard/ProductCart";
-import Products from "../data";
+import { productAPI } from "../services/api";
 
 const HomePage = () => {
+  const [products, setProducts] = useState([]);
+  // const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    productAPI
+      .getAll()
+      .then((res) => setProducts(res.data))
+      .catch((err) => console.error("Error fetching products:", err))
+      .finally(/*() => setLoading(false)*/);
+  }, []);
+
+  console.log("products: ", products);
+
   return (
     <div>
       <HomeNavbar />
-
       <form className="flex items-center max-w-sm mx-auto mt-20">
         <label htmlFor="simple-search" className="sr-only">
           Search
@@ -64,19 +76,26 @@ const HomePage = () => {
         <div className="text-left hidden gap-4 sm:block">
           <h4 className="font-bold">Categories</h4>
           <ul className="flex flex-col gap-2">
-            <li><a href="">Electronic</a></li>
-            <li><a href="">dresses</a></li>
-            <li><a href="">food</a></li>
+            <li>
+              <a href="">Electronic</a>
+            </li>
+            <li>
+              <a href="">dresses</a>
+            </li>
+            <li>
+              <a href="">food</a>
+            </li>
           </ul>
         </div>
         <div className="flex-1 mx-auto px-4 py-5">
           <div className="grid sm:grid-cols-2 md:grid-cols-3 grid-cols-1  gap-4">
-            {Products.map((product) => (
+            {products.map((product) => (
               <ProductCart
                 key={product.id}
-                image={product.image}
                 title={product.title}
+                description={product.description}
                 price={product.price}
+                image={product.image}
               />
             ))}
           </div>
