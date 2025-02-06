@@ -71,7 +71,12 @@ export const uploadMiddleware = upload.array("images", 5); // max 5 images
 export const getProducts = (req, res) => {
   productModel.getProducts((err, results) => {
     if (err) return res.status(500).json({ error: "Failed to fetch products" });
-    res.json(results);
+    // Convert images from comma-separated string to an array
+    const formattedResults = results.map((product) => ({
+      ...product,
+      images: product.images ? product.images.split(",") : [], // Convert to array
+    }));
+    res.json(formattedResults);
   });
 };
 
