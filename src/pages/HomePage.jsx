@@ -5,17 +5,53 @@ import { productAPI } from "../services/api";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   productAPI
+  //     .getAll()
+  //     .then((res) => setProducts(res.data))
+  //     .catch((err) => console.error("Error fetching products:", err))
+  //     .finally(/*() => setLoading(false)*/);
+  // }, []);
 
   useEffect(() => {
+    setLoading(true);
     productAPI
       .getAll()
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.error("Error fetching products:", err))
-      .finally(/*() => setLoading(false)*/);
+      .then((res) => {
+        // Format the products data to ensure images are handled correctly
+        const formattedProducts = res.data.map((product) => ({
+          ...product,
+          // Handle cases where images might be a string or array
+          images: Array.isArray(product.images)
+            ? product.images
+            : product.image_url
+            ? [product.image_url]
+            : [],
+        }));
+        setProducts(formattedProducts);
+      })
+      .catch((err) => {
+        console.error("Error fetching products:", err);
+        setError("Failed to load products");
+      })
+      .finally(() => setLoading(false));
   }, []);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   console.log("products: ", products);
+
+  const defaultImage =
+    "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNvbXB1dGVyfGVufDB8fDB8fHww";
 
   return (
     <div>
@@ -92,10 +128,12 @@ const HomePage = () => {
             {products.map((product) => (
               <ProductCart
                 key={product.id}
+                productId={product.id}
                 title={product.title}
                 description={product.description}
                 price={product.price}
-                image={product.images[0]}
+                image={ product.image_urls[0] || defaultImage} // Try both formats
+                quantity={product.quantity}
               />
             ))}
           </div>
