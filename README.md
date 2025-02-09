@@ -30,3 +30,14 @@ CREATE TABLE product_images (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (product_id) REFERENCES products(id)
 );
+
+
+CREATE TABLE purchases (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  product_id INT NOT NULL,
+  user_id INT NOT NULL,
+  purchase_date DATETIME NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  FOREIGN KEY (product_id) REFERENCES products(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);

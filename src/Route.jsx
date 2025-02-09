@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import SellProductForm from "./pages/SellProductForm";
+import PurchaseSuccess from "./pages/PurchaseSuccess";
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/sell-product" element={<SellProductForm />} />
+        <Route path="/purchase-success" element={<PurchaseSuccess />} />
         {/* Catch-all route for 404 */}
       </Routes>
     </Router>

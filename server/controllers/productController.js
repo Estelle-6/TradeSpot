@@ -105,3 +105,63 @@ export const deleteProduct = (req, res) => {
     res.json({ message: "Product deleted" });
   });
 };
+
+//===================buy product =========================
+// controllers/productController.js
+
+export const buyProduct = async (req, res) => {
+  console.log("the request param", req.params)
+  const { productId } = req.params;
+  console.log("product to buy", productId)
+  const userId = req.user.id;
+
+  try {
+    // First check if product exists and has available quantity
+    productModel.getProductById(productId, (err, product) => {
+      if (err) {
+        console.error("Error fetching product:", err);
+        return res.status(500).json({ error: "Failed to fetch product" });
+      }
+
+      if (!product[0]) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+
+      if (product[0].quantity < 1) {
+        return res.status(400).json({ error: "Product out of stock" });
+      }
+
+      // Create purchase record and decrement quantity
+      productModel.createPurchase(
+        productId,
+        userId,
+        (purchaseErr, purchaseResult) => {
+          if (purchaseErr) {
+            console.error("Error creating purchase:", purchaseErr);
+            return res
+              .status(500)
+              .json({ error: "Failed to process purchase" });
+          }
+
+          // Decrement product quantity
+          productModel.decrementQuantity(productId, (updateErr) => {
+            if (updateErr) {
+              console.error("Error updating quantity:", updateErr);
+              return res
+                .status(500)
+                .json({ error: "Failed to update product quantity" });
+            }
+
+            res.status(200).json({
+              message: "Purchase successful",
+              purchaseId: purchaseResult.insertId,
+            });
+          });
+        }
+      );
+    });
+  } catch (error) {
+    console.error("Server error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

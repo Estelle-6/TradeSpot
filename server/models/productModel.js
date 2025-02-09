@@ -46,25 +46,25 @@ const createProduct = (productData, userId, callback) => {
 
 const getProducts = (callback) => {
   // const query = "SELECT * FROM products";
-//   const query = `
-//   SELECT 
-//     p.id, 
-//     p.user_id, 
-//     p.title, 
-//     p.description, 
-//     p.price, 
-//     p.quantity, 
-//     p.category, 
-//     p.location, 
-//     p.created_at,
-//     IFNULL(GROUP_CONCAT(pi.image_url SEPARATOR ','), '') AS images
-//   FROM products p
-//   LEFT JOIN product_images pi ON p.id = pi.product_id
-//   GROUP BY p.id
-//   LIMIT 25;
-// `;
+  //   const query = `
+  //   SELECT
+  //     p.id,
+  //     p.user_id,
+  //     p.title,
+  //     p.description,
+  //     p.price,
+  //     p.quantity,
+  //     p.category,
+  //     p.location,
+  //     p.created_at,
+  //     IFNULL(GROUP_CONCAT(pi.image_url SEPARATOR ','), '') AS images
+  //   FROM products p
+  //   LEFT JOIN product_images pi ON p.id = pi.product_id
+  //   GROUP BY p.id
+  //   LIMIT 25;
+  // `;
 
-const query = `
+  const query = `
     SELECT p.*, GROUP_CONCAT(pi.image_url) as image_urls
     FROM products p
     LEFT JOIN product_images pi ON p.id = pi.product_id
@@ -94,6 +94,23 @@ const deleteProduct = (productId, callback) => {
   const query = "DELETE FROM products WHERE id = ?";
   db.query(query, [productId], callback);
 };
+//===============buy product==========================
+// models/productModel.js
+
+export const decrementQuantity = (productId, callback) => {
+  console.log("at the model: ", productId);
+  const query =
+    "UPDATE products SET quantity = quantity - 1 WHERE id = ? AND quantity > 0";
+  db.query(query, [productId], callback);
+};
+
+export const createPurchase = (productId, userId, callback) => {
+  const query = `
+    INSERT INTO purchases (product_id, user_id, purchase_date, status)
+    VALUES (?, ?, NOW(), 'pending')
+  `;
+  db.query(query, [productId, userId], callback);
+};
 
 export default {
   createProduct,
@@ -101,4 +118,6 @@ export default {
   getProductById,
   updateProduct,
   deleteProduct,
+  decrementQuantity,
+  createPurchase,
 };

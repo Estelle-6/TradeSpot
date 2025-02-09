@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { productAPI } from "../../../services/api";
 
-const ProductCart = ({ image, title, description, price }) => {
-  // Add a fallback image for products without images
-  const fallbackImage =
-    "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D"; // Replace with your fallback image path
+const ProductCart = ({
+  image,
+  title,
+  description,
+  price,
+  quantity,
+  productId,
+}) => {
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleBuyProduct = async () => {
+    setIsLoading(true);
+    try {
+      console.log("buying product with id: ", productId);
+      await productAPI.buyProduct(productId);
+      navigate("/purchase-success");
+    } catch (error) {
+      console.log("buying product", productId);
+      console.error("Error purchasing product:", error);
+      alert(error.response?.data?.error || "Failed to purchase product");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Add a fallback image for products without
+
   return (
     <div>
       <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -12,9 +39,6 @@ const ProductCart = ({ image, title, description, price }) => {
             className="p-8 rounded-t-lg h-52 w-full object-cover"
             src={image}
             alt={title}
-            onError={(e) => {
-              e.target.src = fallbackImage;
-            }}
           />
         </a>
         <div className="px-5 pb-5">
@@ -80,12 +104,17 @@ const ProductCart = ({ image, title, description, price }) => {
             <span className="text-3xl font-bold text-gray-900 dark:text-white">
               {price} FCFA
             </span>
-            <a
-              href="#"
+            <button
+              onClick={handleBuyProduct}
+              disabled={quantity < 1}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Buy
-            </a>
+              {quantity < 1
+                ? "Out of Stock"
+                : isLoading
+                ? "Processing..."
+                : "Buy Now"}
+            </button>
           </div>
         </div>
       </div>

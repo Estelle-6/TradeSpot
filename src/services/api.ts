@@ -22,7 +22,8 @@ export const productAPI = {
   getAll: () => API.get('products'),
   getOne: (id) => API.get(`products/${id}`),
   update: (id, data) => API.put(`products/${id}`, data),
-  delete: (id) => API.delete(`products/${id}`)
+  delete: (id) => API.delete(`products/${id}`),
+  buyProduct: (productId) => API.post(`products/${productId}/buy`),
 };
 
 

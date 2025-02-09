@@ -8,7 +8,6 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
   // useEffect(() => {
   //   productAPI
   //     .getAll()
@@ -50,6 +49,9 @@ const HomePage = () => {
   }
 
   console.log("products: ", products);
+
+  const defaultImage =
+    "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNvbXB1dGVyfGVufDB8fDB8fHww";
 
   return (
     <div>
@@ -126,10 +128,12 @@ const HomePage = () => {
             {products.map((product) => (
               <ProductCart
                 key={product.id}
+                productId={product.id}
                 title={product.title}
                 description={product.description}
                 price={product.price}
-                image={product.images?.[0] || product.image_urls[0]} // Try both formats
+                image={ product.image_urls[0] || defaultImage} // Try both formats
+                quantity={product.quantity}
               />
             ))}
           </div>
