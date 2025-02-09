@@ -7,9 +7,9 @@ const ProductCart = ({ image, title, description, price }) => {
   return (
     <div>
       <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <a href="#">
+        <a href="#" className="">
           <img
-            className="p-8 rounded-t-lg"
+            className="p-8 rounded-t-lg h-52 w-full object-cover"
             src={image}
             alt={title}
             onError={(e) => {

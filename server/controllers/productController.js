@@ -70,7 +70,6 @@ export const createProduct = (req, res) => {
 };
 
 // Middleware to handle file uploads
-// export const uploadMiddleware = upload.array("images", 5); // max 5 images
 export const uploadMiddleware = upload.array("images", 5);
 // =================================get products============================
 export const getProducts = (req, res) => {
