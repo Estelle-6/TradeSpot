@@ -129,7 +129,7 @@ const HomePage = () => {
                 title={product.title}
                 description={product.description}
                 price={product.price}
-                image={product.images?.[0] || product.image_urls} // Try both formats
+                image={product.images?.[0] || product.image_urls[0]} // Try both formats
               />
             ))}
           </div>

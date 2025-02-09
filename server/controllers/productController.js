@@ -1,12 +1,5 @@
 import productModel from "../models/productModel.js";
-// import multer from "multer";
 import { upload } from "../config/cloudinary.js";
-
-// // Multer upload configuration
-// const upload = multer({
-//   dest: "uploads",
-//   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
-// });
 
 export const createProduct = (req, res) => {
   try {
@@ -86,7 +79,7 @@ export const getProducts = (req, res) => {
     // Convert images from comma-separated string to an array
     const formattedResults = results.map((product) => ({
       ...product,
-      images: product.images ? product.images.split(",") : [], // Convert to array
+      image_urls: product.image_urls ? product.image_urls.split(",") : [], // Convert to array
     }));
     res.json(formattedResults);
   });
