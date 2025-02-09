@@ -1,11 +1,21 @@
 import React from "react";
 
 const ProductCart = ({ image, title, description, price }) => {
+  // Add a fallback image for products without images
+  const fallbackImage =
+    "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D"; // Replace with your fallback image path
   return (
     <div>
       <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <a href="#">
-          <img className="p-8 rounded-t-lg" src={image} alt="product image" />
+          <img
+            className="p-8 rounded-t-lg"
+            src={image}
+            alt={title}
+            onError={(e) => {
+              e.target.src = fallbackImage;
+            }}
+          />
         </a>
         <div className="px-5 pb-5">
           <a href="#">

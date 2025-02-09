@@ -1,11 +1,12 @@
 import productModel from "../models/productModel.js";
-import multer from "multer";
+// import multer from "multer";
+import { upload } from "../config/cloudinary.js";
 
-// Multer upload configuration
-const upload = multer({
-  dest: "uploads/",
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
-});
+// // Multer upload configuration
+// const upload = multer({
+//   dest: "uploads",
+//   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
+// });
 
 export const createProduct = (req, res) => {
   try {
@@ -20,6 +21,14 @@ export const createProduct = (req, res) => {
       return res.status(401).json({ error: "User not authenticated" });
     }
 
+    // Get Cloudinary URLs from uploaded files
+    const imageUrls = req.files ? req.files.map((file) => file.path) : [];
+
+    // Check if images were uploaded
+    if (imageUrls.length === 0) {
+      return res.status(400).json({ error: "No images uploaded" });
+    }
+
     // Prepare product data
     const productData = {
       title: req.body.title,
@@ -29,6 +38,7 @@ export const createProduct = (req, res) => {
       category: req.body.category,
       location: req.body.location,
       userId: userId,
+      images: imageUrls, // Add this field
     };
 
     // Validate product data
@@ -54,6 +64,7 @@ export const createProduct = (req, res) => {
       res.status(201).json({
         message: "Product created",
         productId: result.insertId,
+        product: productData, // Return saved product with Cloudinary URLs
       });
     });
   } catch (error) {
@@ -66,7 +77,8 @@ export const createProduct = (req, res) => {
 };
 
 // Middleware to handle file uploads
-export const uploadMiddleware = upload.array("images", 5); // max 5 images
+// export const uploadMiddleware = upload.array("images", 5); // max 5 images
+export const uploadMiddleware = upload.array("images", 5);
 // =================================get products============================
 export const getProducts = (req, res) => {
   productModel.getProducts((err, results) => {
